@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from pydantic import ConfigDict
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Memory Business API"
@@ -6,13 +7,15 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
 
     # Database
-    DATABASE_URL: str = "sqlite:///./memory_business.db"
+    DATABASE_URL: str = "postgresql+psycopg://monuser:monmdp@localhost:5432/mondb"
 
     # CORS
     BACKEND_CORS_ORIGINS: list = ["*"]
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
+    model_config = ConfigDict(
+        env_file=".env",
+        case_sensitive=True,
+        extra="ignore"
+    )
 
 settings = Settings()

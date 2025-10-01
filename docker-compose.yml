@@ -28,7 +28,7 @@ services:
       dockerfile: Dockerfile
     container_name: memory_business_api
     environment:
-      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/memory_business_db
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/memory_business_db
       PROJECT_NAME: Memory Business API
       VERSION: 1.0.0
     ports:
