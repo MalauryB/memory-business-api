@@ -1,6 +1,8 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from strawberry.fastapi import GraphQLRouter
 from app.core.config import settings
+from app.api.graphql import schema
 from infrastructure.database.session import init_db
 from interfaces.api.client_routes import router as client_router
 
@@ -24,6 +26,10 @@ app = FastAPI(
 
 # Include routers
 app.include_router(client_router)
+
+# GraphQL router
+graphql_app = GraphQLRouter(schema)
+app.include_router(graphql_app, prefix="/graphql")
 
 
 @app.get("/")
