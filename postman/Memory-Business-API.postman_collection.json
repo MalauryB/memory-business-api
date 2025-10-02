@@ -38,7 +38,7 @@
 					}
 				},
 				{
-					"name": "Get All Users",
+					"name": "Get All Clients",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -50,8 +50,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query {\n  users {\n    id\n    name\n    email\n    age\n  }\n}",
-								"variables": ""
+								"query": "query GetClients($skip: Int, $limit: Int) {\n  clients(skip: $skip, limit: $limit) {\n    id\n    name\n    contactName\n    email\n    phone\n    address {\n      street\n      city\n      zipCode\n      country\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": "{\n  \"skip\": 0,\n  \"limit\": 100\n}"
 							}
 						},
 						"url": {
@@ -66,7 +66,7 @@
 					}
 				},
 				{
-					"name": "Get User By ID",
+					"name": "Get Client By ID",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -78,8 +78,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "query GetUser($id: Int!) {\n  user(id: $id) {\n    id\n    name\n    email\n    age\n  }\n}",
-								"variables": "{\n  \"id\": 1\n}"
+								"query": "query GetClient($id: String!) {\n  client(id: $id) {\n    id\n    name\n    contactName\n    email\n    phone\n    address {\n      street\n      city\n      zipCode\n      country\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": "{\n  \"id\": \"00000000-0000-0000-0000-000000000000\"\n}"
 							}
 						},
 						"url": {
@@ -99,7 +99,7 @@
 			"name": "Mutations",
 			"item": [
 				{
-					"name": "Create User",
+					"name": "Create Client",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -111,8 +111,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation CreateUser($userInput: UserInput!) {\n  createUser(userInput: $userInput) {\n    id\n    name\n    email\n    age\n  }\n}",
-								"variables": "{\n  \"userInput\": {\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30\n  }\n}"
+								"query": "mutation CreateClient($clientInput: ClientInput!) {\n  createClient(clientInput: $clientInput) {\n    id\n    name\n    contactName\n    email\n    phone\n    address {\n      street\n      city\n      zipCode\n      country\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": "{\n  \"clientInput\": {\n    \"name\": \"Acme Corp\",\n    \"contactName\": \"John Doe\",\n    \"email\": \"john@acme.com\",\n    \"phone\": \"+33 1 23 45 67 89\",\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Paris\",\n      \"zipCode\": \"75001\",\n      \"country\": \"France\"\n    }\n  }\n}"
 							}
 						},
 						"url": {
@@ -127,7 +127,7 @@
 					}
 				},
 				{
-					"name": "Update User",
+					"name": "Update Client",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -139,8 +139,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation UpdateUser($id: Int!, $userInput: UserInput!) {\n  updateUser(id: $id, userInput: $userInput) {\n    id\n    name\n    email\n    age\n  }\n}",
-								"variables": "{\n  \"id\": 1,\n  \"userInput\": {\n    \"name\": \"John Doe Updated\",\n    \"email\": \"john.updated@example.com\",\n    \"age\": 31\n  }\n}"
+								"query": "mutation UpdateClient($id: String!, $clientInput: UpdateClientInput!) {\n  updateClient(id: $id, clientInput: $clientInput) {\n    id\n    name\n    contactName\n    email\n    phone\n    address {\n      street\n      city\n      zipCode\n      country\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": "{\n  \"id\": \"00000000-0000-0000-0000-000000000000\",\n  \"clientInput\": {\n    \"name\": \"Acme Corp Updated\",\n    \"contactName\": \"Jane Doe\",\n    \"email\": \"jane@acme.com\"\n  }\n}"
 							}
 						},
 						"url": {
@@ -155,7 +155,7 @@
 					}
 				},
 				{
-					"name": "Delete User",
+					"name": "Delete Client",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -167,8 +167,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation DeleteUser($id: Int!) {\n  deleteUser(id: $id)\n}",
-								"variables": "{\n  \"id\": 1\n}"
+								"query": "mutation DeleteClient($id: String!) {\n  deleteClient(id: $id)\n}",
+								"variables": "{\n  \"id\": \"00000000-0000-0000-0000-000000000000\"\n}"
 							}
 						},
 						"url": {

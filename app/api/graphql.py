@@ -1,9 +1,9 @@
 import strawberry
-from typing import List
-from app.schemas.user import User, UserInput
-from app.services.user_service import UserService
+from typing import List, Optional
+from app.schemas.client import Client, ClientInput, UpdateClientInput
+from app.services.client_service import ClientService
 
-user_service = UserService()
+client_service = ClientService()
 
 @strawberry.type
 class Query:
@@ -12,25 +12,25 @@ class Query:
         return "Hello from GraphQL!"
 
     @strawberry.field
-    def users(self) -> List[User]:
-        return user_service.get_all_users()
+    async def clients(self, skip: int = 0, limit: int = 100) -> List[Client]:
+        return await client_service.get_all_clients(skip=skip, limit=limit)
 
     @strawberry.field
-    def user(self, id: int) -> User | None:
-        return user_service.get_user_by_id(id)
+    async def client(self, id: str) -> Optional[Client]:
+        return await client_service.get_client_by_id(id)
 
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    def create_user(self, user_input: UserInput) -> User:
-        return user_service.create_user(user_input)
+    async def create_client(self, client_input: ClientInput) -> Client:
+        return await client_service.create_client(client_input)
 
     @strawberry.mutation
-    def update_user(self, id: int, user_input: UserInput) -> User | None:
-        return user_service.update_user(id, user_input)
+    async def update_client(self, id: str, client_input: UpdateClientInput) -> Optional[Client]:
+        return await client_service.update_client(id, client_input)
 
     @strawberry.mutation
-    def delete_user(self, id: int) -> bool:
-        return user_service.delete_user(id)
+    async def delete_client(self, id: str) -> bool:
+        return await client_service.delete_client(id)
 
 schema = strawberry.Schema(query=Query, mutation=Mutation)
